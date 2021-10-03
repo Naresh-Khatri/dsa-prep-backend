@@ -2,7 +2,7 @@ const express = require('express');
 const app = express()
 const { c, cpp, java, python, node } = require('compile-run')
 const morgan = require('morgan')
-
+const cors = require('cors')
 const PORT = 3333;
 
 app.use((req, res, next) => {
@@ -13,6 +13,7 @@ app.use((req, res, next) => {
 })
 app.use(express.json())
 app.use(morgan('dev'))
+app.use(cors())
 
 
 app.post("/", async (req, res) => {
