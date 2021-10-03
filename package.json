@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.22.0",
     "compile-run": "^2.3.4",
     "express": "^4.17.1",
     "morgan": "^1.10.0"

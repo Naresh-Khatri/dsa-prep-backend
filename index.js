@@ -3,7 +3,7 @@ const app = express()
 const { c, cpp, java, python, node } = require('compile-run')
 const morgan = require('morgan')
 
-const PORT = 3000;
+const PORT = 3333;
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
@@ -32,7 +32,7 @@ app.post("/", async (req, res) => {
         break
       case 'java':
         // res.send(await java.runSource(sourceCode))
-        res.send({stderr: 'Currently not executing java 😢'})
+        res.send({ stderr: 'Currently not executing java 😢' })
         break
       case 'javascript':
         res.send(await node.runSource(sourceCode))
@@ -43,46 +43,9 @@ app.post("/", async (req, res) => {
   }
   catch (err) {
     console.log(err)
-    res.send({stderr: 'something is fishy 🐟'})
+    res.send({ stderr: 'something is fishy 🐟' })
   }
-
-  //   let payload = {
-  //     name: 'C',
-  //     title: 'C Language Hello World',
-  //     version: 'latest',
-  //     mode: 'c_cpp',
-  //     description: null,
-  //     extension: 'c',
-  //     languageType: 'programming',
-  //     active: true,
-  //     properties: {
-  //       language: 'c',
-  //       docs: true,
-  //       tutorials: true,
-  //       cheatsheets: true,
-  //       files: [
-  //         {
-  //           name: 'HelloWorld.c',
-  //           content: req.body.code,
-  //         },
-  //       ],
-  //     },
-  //     visibility: 'public',
-  //   };
-  //   let output;
-  //   axios.post("https://onecompiler.com/api/code/exec", payload)
-  //     .then((result) => {
-  //       output = result.data
-  //     })
-  //     .finally(() => {
-  //       console.log(output);
-  //       res.send(output);
-  //     })
-  //     .catch(err => {
-  //       console.log(err)
-  //       res.send(err)
-  //     })
 }
 );
 
-app.listen(PORT, () => { `Server up on http://localhost:${PORT}` })
+app.listen(PORT, () => { console.log(`Server up on http://localhost:${PORT}`) })
