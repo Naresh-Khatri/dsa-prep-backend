@@ -3,6 +3,10 @@ const app = express()
 const { c, cpp, java, python, node } = require('compile-run')
 const morgan = require('morgan')
 const cors = require('cors')
+// const questions = require('./questions');
+const questions = require('../../project-quasar/dsa-prep-spa/src/questions');
+
+
 const PORT = 3333;
 
 app.use((req, res, next) => {
@@ -23,7 +27,7 @@ app.post("/", async (req, res) => {
   try {
     switch (lang) {
       case 'c':
-        res.send(await c.runSource(sourceCode))
+        res.send(await executeC(req.body))
         break
       case 'cpp':
         res.send(await cpp.runSource(sourceCode))
@@ -48,5 +52,30 @@ app.post("/", async (req, res) => {
   }
 }
 );
+
+function executeC(body) {
+  return new Promise(async (resolve, reject) => {
+
+    try {
+      //run source code for every test case
+      questions[body.qNo].testCases.forEach(async testCase => {
+        let output = await c.runSource(body.code, { stdin: testCase.input })
+        console.log('test   input: ' + testCase.input)
+        console.log('users output: ' + output.stdout)
+        console.log('test  output: ' + testCase.output)
+
+        //using regex since replaceAll not available <es12+
+        console.log(output.stdout.replace(/ /g, ''), testCase.output.replace(/ /g, ''))
+        console.log(output.stdout.replace(/ /g, '') == testCase.output.replace(/ /g, ''))
+        resolve(output)
+      });
+    }
+    catch (err) {
+      console.log(err)
+      reject(err)
+    }
+  })
+}
+
 
 app.listen(PORT, () => { console.log(`Server up on http://localhost:${PORT}`) })
