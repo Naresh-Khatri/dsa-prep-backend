@@ -3,10 +3,8 @@ const app = express()
 const { c, cpp, java, python, node } = require('compile-run')
 const morgan = require('morgan')
 const cors = require('cors')
-
-// const questions = require('./questions');
-const questions = require('../../project-quasar/dsa-prep-spa/src/questions');
-
+const questions = require('./questions');
+// const questions = require('../../project-quasar/dsa-prep-spa/src/questions');
 
 const PORT = 3333;
 
@@ -65,6 +63,8 @@ function executeC(body) {
       await Promise.all(questions[body.qNo].testCases.map(async (testCase) => {
         //run the test case with testCase.input
         let output = await c.runSource(body.code, { stdin: testCase.input })
+
+        if(output.stderr) console.log(output.stderr)
 
         //testing out user's output
         console.log(`test   input: ${testCase.input}\nusers output: ${output.stdout}\ntest  output: ${testCase.output}`);
