@@ -3,9 +3,8 @@ const app = express()
 const { c, cpp, java, python, node } = require('compile-run')
 const morgan = require('morgan')
 const cors = require('cors')
-// const questions = require('./questions');
-const questions = require('../../project-quasar/dsa-prep-spa/src/questions');
-
+const questions = require('./questions');
+// const questions = require('../../project-quasar/dsa-prep-spa/src/questions');
 
 const PORT = 3333;
 
@@ -56,19 +55,38 @@ app.post("/", async (req, res) => {
 function executeC(body) {
   return new Promise(async (resolve, reject) => {
 
+    let payload = {passedCount:0, totalCount:0, tests: [] };
     try {
-      //run source code for every test case
-      questions[body.qNo].testCases.forEach(async testCase => {
+      payload.totalCount = questions[body.qNo].testCases.length
+      //runs source code for every test case
+      //using Promise.all since forEach doesnt work with await
+      await Promise.all(questions[body.qNo].testCases.map(async (testCase) => {
+        //run the test case with testCase.input
         let output = await c.runSource(body.code, { stdin: testCase.input })
-        console.log('test   input: ' + testCase.input)
-        console.log('users output: ' + output.stdout)
-        console.log('test  output: ' + testCase.output)
+
+        if(output.stderr) console.log(output.stderr)
+
+        //testing out user's output
+        console.log(`test   input: ${testCase.input}\nusers output: ${output.stdout}\ntest  output: ${testCase.output}`);
 
         //using regex since replaceAll not available <es12+
         console.log(output.stdout.replace(/ /g, ''), testCase.output.replace(/ /g, ''))
-        console.log(output.stdout.replace(/ /g, '') == testCase.output.replace(/ /g, ''))
-        resolve(output)
-      });
+        let passed = output.stdout.replace(/ /g, '') == testCase.output.replace(/ /g, '')
+        
+        //add expected output and inputFront to output obj
+        output.expout = testCase.output
+        output.input = testCase.inputFront || 'test input not found!'
+        
+        // console.log(output)
+        // console.log(passed)
+
+        //increament if passed
+        if(passed) payload.passedCount++
+        Object.assign(output, { passed: passed })
+        payload.tests.push(output)
+      }))
+      // console.log(payload)
+      resolve(payload)
     }
     catch (err) {
       console.log(err)
