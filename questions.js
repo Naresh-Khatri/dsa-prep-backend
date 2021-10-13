@@ -192,13 +192,13 @@ int main(){
                 inputFront: 'N = 5, arr[] = 0 2 1 2 0',
                 input: '5 0 2 1 2 0',
                 output: '0 0 1 2 2',
-                explaination: '0s 1s and 2s are segregated into ascending order.',
+                explanation: '0s 1s and 2s are segregated into ascending order.',
                 hidden: false
             }, {
                 inputFront: 'N = 3, arr[] = 0 1 0',
                 input: '3 0 1 0',
                 output: '0 0 1',
-                explaination: '0s 1s and 2s are segregated into ascending order.',
+                explanation: '0s 1s and 2s are segregated into ascending order.',
                 hidden: false
             }
         ]
@@ -223,11 +223,11 @@ int main(){
     // ]
     // },
     {
-        num: 6,
+        num: 5,
         title: 'Cyclically rotate an array by one',
         desc: 'Given an array, rotate the array by one position in clock-wise direction.',
         diffLevel: 'ez',
-        hint:`
+        hint: `
 #include <stdio.h>
 
 void rotate(int* arr, int n){
@@ -268,9 +268,11 @@ int main(){
         ]
     },
     {
-        num: 7,
+        num: 6,
         title: "Kadane's Algorithm - find Largest sum contiguous Subarray",
-        desc: 'Given an array Arr[] of N integers. Find the contiguous sub-array(containing at least one number) which has the maximum sum and return its sum.',
+        desc: `Given an array Arr[] of N integers. Find the contiguous 
+                sub-array(containing at least one number) which has the
+                maximum sum and return its sum.`,
         diffLevel: 'medium',
         imp: true,
         hint: `#include <stdio.h>
@@ -298,7 +300,7 @@ int main(){
                 inputFront: 'N = 5, arr[] = 1 2 3 -2 5',
                 input: '5 1 2 3 -2 5',
                 output: '9',
-                explaination: `Max subarray sum is 9
+                explanation: `Max subarray sum is 9
                 of elements (1, 2, 3, -2, 5) which 
                 is a contiguous subarray.`,
                 hidden: false,
@@ -307,45 +309,73 @@ int main(){
                 inputFront: 'N = 4, arr[] = -1 -2 -3 -4',
                 input: '4 -1 -2 -3 -4',
                 output: '-1',
-                explaination: `Max subarray sum is -1 
+                explanation: `Max subarray sum is -1 
                 of element (-1)`,
                 hidden: false
             }
         ]
     },
     {
-        num: 2,
-        title: 'Find the maximum and minimum element in an array',
-        desc: 'Write a function to return minimum and maximum in an array. Your program should make the minimum number of comparisons',
+        num: 7,
+        title: 'Union of two arrays ',
+        desc: `Given two arrays arr1[ ] and arr2[ ] of size L and M respectively. The task is to
+             find union between these two arrays.
+
+        Union of the two arrays can be defined as the set containing distinct elements 
+        from both the arrays. If there are repetitions, then only one occurrence of
+        element should be printed in the union.`,
         diffLevel: 'ez',
+        hint: `#include <stdio.h>
+int main(void){
+    int arr1[10], arr2[10];
+    int unionCount;
+    int l, m, i, j;
+    int flag;
+
+    scanf("%d", &l);
+    scanf("%d", &m);
+
+    //inputs
+    for(i=0; i < l; i++)
+        scanf("%d", &arr1[i]);
+    for(i=0; i < m; i++)
+        scanf("%d", &arr2[i]);
+
+    unionCount = l;
+
+    for(i=0; i < m; i++){
+        flag = 0;
+        for(j=0; j < l; j++)
+            if(arr2[i] == arr1[j]){
+                flag = 1;
+                break;
+            }
+        if(flag == 0)
+            unionCount++;
+    }   
+
+    printf("%d", unionCount);
+    return 0;
+}`,
         testCases: [{
-            input: '{1000, 11, 445, 1, 330, 3000}',
-            output: 'Minimum element is 1, Maximum element is 3000',
+            inputFront: 'L = 5, M = 3, arr1[]= 1 2 3 4 5, arr2[] = 1 2 3',
+            input: '5 3 1 2 3 4 5 1 2 3',
+            output: '5',
+            explanation: `1, 2, 3, 4 and 5 are the elements which comes in the union set
+            of both arrays. So count is 5`,
             hidden: false
-        }]
-    },
-    {
-        num: 2,
-        title: 'Find the maximum and minimum element in an array',
-        desc: 'Write a function to return minimum and maximum in an array. Your program should make the minimum number of comparisons',
-        diffLevel: 'ez',
-        testCases: [{
-            input: '{1000, 11, 445, 1, 330, 3000}',
-            output: 'Minimum element is 1, Maximum element is 3000',
+        },
+        {
+            inputFront: 'L = 6, M = 2, arr1[] = 85 25 1 32 54 6, arr2[] = 85 2',
+            explanation: `85, 25, 1, 32, 54, 6, and 2 are the elements which 
+            comes in the union set of both arrays. So count is 7.`,
+            input: '6 2 85 25 1 32 54 6 85 2',
+            output: '7',
             hidden: false
-        }]
+        },
+        ]
     },
-    {
-        num: 2,
-        title: 'Find the maximum and minimum element in an array',
-        desc: 'Write a function to return minimum and maximum in an array. Your program should make the minimum number of comparisons',
-        diffLevel: 'ez',
-        testCases: [{
-            input: '{1000, 11, 445, 1, 330, 3000}',
-            output: 'Minimum element is 1, Maximum element is 3000',
-            hidden: false
-        }]
-    },
+
 
 
 ]
