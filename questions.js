@@ -294,7 +294,19 @@ int main(){
     }
     printf("%d", sum);
     return 0;
-}`,
+}
+/**OR
+ * long long sum = arr[0];
+ long long tempSum = 0;
+ for(int i=0; i<n; i++){
+     tempSum += arr[i];
+     if(tempSum > sum)
+         sum = tempSum;
+     if(tempSum < 0)
+         tempSum = 0;
+ }
+ return sum;*/
+`,
         testCases: [
             {
                 inputFront: 'N = 5, arr[] = 1 2 3 -2 5',
