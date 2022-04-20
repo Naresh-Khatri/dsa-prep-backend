@@ -392,4 +392,4 @@ int main(void){
 
 ]
 
-module.exports = questions
+export default questions
